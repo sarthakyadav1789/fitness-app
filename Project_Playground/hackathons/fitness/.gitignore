@@ -1,0 +1,4 @@
+node_modules
+verify.js
+.env
+package-lock.json

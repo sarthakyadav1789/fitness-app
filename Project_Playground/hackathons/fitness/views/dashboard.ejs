@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Desert Pulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-brand">DESERT PULSE</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/workout">Today's Workout</a></li>
+      <li><a href="/progress">Progress</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="fade-in">
+      <h1 style="margin-top: 2rem;">WELCOME BACK, <%= user.name.toUpperCase() %></h1>
+      <p style="font-size: 1.2rem; color: var(--sand-medium); margin-bottom: 3rem;">
+        "Every journey begins with a single step across the sand."
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value"><%= progress.streak %></div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><%= progress.completedSessions %></div>
+          <div class="stat-label">Total Workouts</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value"><%= progress.totalMinutes %></div>
+          <div class="stat-label">Total Minutes</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 3rem;">
+        <h2>YOUR FITNESS PROFILE</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Goal</p>
+            <p style="font-size: 1.3rem; font-weight: 700; color: var(--accent-gold);">
+              <%= user.goal.replace('_', ' ').toUpperCase() %>
+            </p>
+          </div>
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Available Time</p>
+            <p style="font-size: 1.3rem; font-weight: 700; color: var(--accent-gold);">
+              <%= user.availableTime %> MINUTES
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 2rem; text-align: center; background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(212, 175, 55, 0.2));">
+        <h2>READY FOR TODAY'S CHALLENGE?</h2>
+        <p style="color: var(--sand-light); margin: 1.5rem 0; font-size: 1.1rem;">
+          Select your energy level and receive a personalized workout adapted just for you.
+        </p>
+        <a href="/workout" class="btn" style="font-size: 1.2rem; padding: 18px 50px; margin-top: 1rem;">
+          START TODAY'S WORKOUT
+        </a>
+      </div>
+
+      <% if (progress.history && progress.history.length > 0) { %>
+        <div class="card" style="margin-top: 2rem;">
+          <h2>RECENT ACTIVITY</h2>
+          <div class="history-list">
+            <% progress.history.slice(-5).reverse().forEach(workout => { %>
+              <div class="history-item">
+                <div>
+                  <div class="history-details">
+                    <%= workout.workoutType.replace('_', ' ').toUpperCase() %> 
+                    <span style="color: var(--sand-medium);">• <%= workout.energyLevel.toUpperCase() %> Energy</span>
+                  </div>
+                  <div class="history-date">
+                    <%= new Date(workout.date).toLocaleDateString('en-US', { 
+                      weekday: 'short', 
+                      month: 'short', 
+                      day: 'numeric' 
+                    }) %>
+                  </div>
+                </div>
+                <div style="color: var(--accent-gold); font-weight: 700;">
+                  <%= workout.duration %> min
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>
