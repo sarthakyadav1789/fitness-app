@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Level - Desert Pulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-brand">DESERT PULSE</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/workout">Today's Workout</a></li>
+      <li><a href="/progress">Progress</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="fade-in" style="text-align: center; margin-top: 3rem;">
+      <h1>HOW DO YOU FEEL TODAY?</h1>
+      <p style="font-size: 1.3rem; color: var(--sand-medium); margin: 1.5rem 0;">
+        "Listen to your body. The desert teaches patience."
+      </p>
+      <p style="color: var(--sand-light); max-width: 600px; margin: 2rem auto; line-height: 1.6;">
+        Select your current energy level. Desert Pulse will adapt your workout intensity accordingly, 
+        ensuring sustainable progress without burnout.
+      </p>
+
+      <form method="POST" action="/workout/generate">
+        <div class="energy-selector">
+          <div class="energy-option">
+            <input type="radio" id="low" name="energyLevel" value="low" required>
+            <label for="low" class="energy-label">
+              <span class="energy-icon">🌙</span>
+              <div class="energy-name">Low Energy</div>
+              <p style="color: var(--sand-medium); margin-top: 0.5rem; font-size: 0.95rem;">
+                Gentle recovery workout
+              </p>
+            </label>
+          </div>
+
+          <div class="energy-option">
+            <input type="radio" id="medium" name="energyLevel" value="medium" required>
+            <label for="medium" class="energy-label">
+              <span class="energy-icon">☀️</span>
+              <div class="energy-name">Medium Energy</div>
+              <p style="color: var(--sand-medium); margin-top: 0.5rem; font-size: 0.95rem;">
+                Balanced moderate workout
+              </p>
+            </label>
+          </div>
+
+          <div class="energy-option">
+            <input type="radio" id="high" name="energyLevel" value="high" required>
+            <label for="high" class="energy-label">
+              <span class="energy-icon">⚡</span>
+              <div class="energy-name">High Energy</div>
+              <p style="color: var(--sand-medium); margin-top: 0.5rem; font-size: 0.95rem;">
+                Intense maximum effort
+              </p>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="btn" style="margin-top: 3rem; font-size: 1.2rem; padding: 18px 50px;">
+          GENERATE MY WORKOUT
+        </button>
+      </form>
+
+      <div style="margin-top: 3rem;">
+        <a href="/dashboard" style="color: var(--sand-medium); text-decoration: none; font-size: 1.1rem;">
+          ← Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

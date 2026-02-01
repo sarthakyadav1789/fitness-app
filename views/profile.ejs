@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Desert Pulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-brand">DESERT PULSE</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/workout">Today's Workout</a></li>
+      <li><a href="/progress">Progress</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="fade-in" style="max-width: 700px; margin: 2rem auto;">
+      <h1>YOUR PROFILE</h1>
+      <p style="font-size: 1.2rem; color: var(--sand-medium); margin-bottom: 3rem;">
+        Manage your account and fitness preferences
+      </p>
+
+      <% if (message) { %>
+        <div class="alert alert-success">
+          <%= message %>
+        </div>
+      <% } %>
+
+      <div class="card">
+        <h2>ACCOUNT INFORMATION</h2>
+        
+        <form method="POST" action="/profile/update">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" value="<%= user.name %>" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" value="<%= user.email %>" disabled style="opacity: 0.6; cursor: not-allowed;">
+            <p style="color: var(--sand-medium); font-size: 0.9rem; margin-top: 0.5rem;">
+              Email cannot be changed
+            </p>
+          </div>
+
+          <div style="border-top: 2px solid var(--sand-dark); margin: 2rem 0; padding-top: 2rem;">
+            <h3 style="color: var(--accent-gold); margin-bottom: 1.5rem;">FITNESS PREFERENCES</h3>
+
+            <div class="form-group">
+              <label for="goal">Primary Fitness Goal</label>
+              <select id="goal" name="goal" required>
+                <option value="strength" <%= user.goal === 'strength' ? 'selected' : '' %>>Build Strength</option>
+                <option value="endurance" <%= user.goal === 'endurance' ? 'selected' : '' %>>Increase Endurance</option>
+                <option value="flexibility" <%= user.goal === 'flexibility' ? 'selected' : '' %>>Improve Flexibility</option>
+                <option value="weight_loss" <%= user.goal === 'weight_loss' ? 'selected' : '' %>>Weight Loss</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="availableTime">Available Time per Workout (minutes)</label>
+              <select id="availableTime" name="availableTime" required>
+                <option value="15" <%= user.availableTime === 15 ? 'selected' : '' %>>15 minutes</option>
+                <option value="20" <%= user.availableTime === 20 ? 'selected' : '' %>>20 minutes</option>
+                <option value="30" <%= user.availableTime === 30 ? 'selected' : '' %>>30 minutes</option>
+                <option value="45" <%= user.availableTime === 45 ? 'selected' : '' %>>45 minutes</option>
+                <option value="60" <%= user.availableTime === 60 ? 'selected' : '' %>>60 minutes</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn" style="width: 100%; margin-top: 2rem;">
+            SAVE CHANGES
+          </button>
+        </form>
+      </div>
+
+      <div class="card" style="margin-top: 2rem; background: rgba(26, 26, 46, 0.5); border: 2px dashed var(--sand-dark);">
+        <h3 style="color: var(--sand-medium);">Account Actions</h3>
+        <div style="margin-top: 1.5rem;">
+          <a href="/logout" class="btn btn-secondary" style="width: 100%;">
+            LOGOUT
+          </a>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="/dashboard" style="color: var(--sand-medium); text-decoration: none; font-size: 1.1rem;">
+          ← Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

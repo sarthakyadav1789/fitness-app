@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Today's Workout - Desert Pulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-brand">DESERT PULSE</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/workout">Today's Workout</a></li>
+      <li><a href="/progress">Progress</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="fade-in">
+      <h1 style="margin-top: 2rem;">TODAY'S WORKOUT</h1>
+      
+      <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(212, 175, 55, 0.2));">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Goal</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: var(--accent-gold);">
+              <%= user.goal.replace('_', ' ').toUpperCase() %>
+            </p>
+          </div>
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Energy Level</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: var(--accent-gold);">
+              <%= energyLevel.toUpperCase() %>
+            </p>
+          </div>
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Duration</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: var(--accent-gold);">
+              ~<%= totalDuration %> MIN
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 2rem;">
+        <h2>YOUR EXERCISES</h2>
+        <p style="color: var(--sand-medium); margin-bottom: 2rem;">
+          Complete each exercise with proper form. Rest 30-60 seconds between sets.
+        </p>
+        
+        <div class="workout-list">
+          <% workout.forEach((exercise, index) => { %>
+            <div class="workout-item slide-in" style="animation-delay: <%= index * 0.1 %>s;">
+              <div>
+                <div class="workout-item-name"><%= index + 1 %>. <%= exercise.name %></div>
+              </div>
+              <div class="workout-item-details">
+                <span><strong><%= exercise.sets %></strong> sets</span>
+                <span><strong><%= exercise.reps %></strong> reps</span>
+                <span><strong><%= exercise.duration %></strong> min</span>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 2rem; background: rgba(26, 26, 46, 0.5); border: 2px dashed var(--accent-gold);">
+        <h3 style="color: var(--accent-gold);">💡 Training Tips</h3>
+        <ul style="margin-top: 1rem; line-height: 2; color: var(--sand-light); list-style-position: inside;">
+          <li>Warm up for 2-3 minutes before starting</li>
+          <li>Focus on controlled movements over speed</li>
+          <li>Breathe steadily throughout each exercise</li>
+          <li>Listen to your body and adjust as needed</li>
+          <li>Cool down and stretch after completing</li>
+        </ul>
+      </div>
+
+      <div style="text-align: center; margin-top: 3rem;">
+        <button onclick="completeWorkout()" class="btn" style="font-size: 1.2rem; padding: 18px 50px;">
+          ✓ MARK AS COMPLETED
+        </button>
+        <div style="margin-top: 1.5rem;">
+          <a href="/workout" style="color: var(--sand-medium); text-decoration: none; font-size: 1.1rem;">
+            ← Try Different Energy Level
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function completeWorkout() {
+      try {
+        const response = await fetch('/workout/complete', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            energyLevel: '<%= energyLevel %>',
+            duration: <%= totalDuration %>
+          })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          alert('🎉 Workout completed! Great job!');
+          window.location.href = '/dashboard';
+        } else {
+          alert('Error: ' + data.message);
+        }
+      } catch (error) {
+        alert('Error completing workout. Please try again.');
+        console.error(error);
+      }
+    }
+  </script>
+</body>
+</html>

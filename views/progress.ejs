@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress - Desert Pulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-brand">DESERT PULSE</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/workout">Today's Workout</a></li>
+      <li><a href="/progress">Progress</a></li>
+      <li><a href="/profile">Profile</a></li>
+      <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="fade-in">
+      <h1 style="margin-top: 2rem;">YOUR PROGRESS</h1>
+      <p style="font-size: 1.2rem; color: var(--sand-medium); margin-bottom: 3rem;">
+        "The desert rewards those who persist."
+      </p>
+
+      <div class="card" style="background: linear-gradient(135deg, rgba(139, 69, 19, 0.3), rgba(212, 175, 55, 0.2));">
+        <h2>OVERALL STATISTICS</h2>
+        <div class="stats-grid" style="margin-top: 2rem;">
+          <div class="stat-card">
+            <div class="stat-value"><%= progress.streak %></div>
+            <div class="stat-label">Current Streak</div>
+            <p style="margin-top: 0.5rem; color: var(--sand-medium); font-size: 0.9rem;">
+              <% if (progress.streak > 0) { %>
+                Keep it going! 🔥
+              <% } else { %>
+                Start your journey today!
+              <% } %>
+            </p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><%= progress.completedSessions %></div>
+            <div class="stat-label">Total Workouts</div>
+            <p style="margin-top: 0.5rem; color: var(--sand-medium); font-size: 0.9rem;">
+              Sessions completed
+            </p>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value"><%= progress.totalMinutes %></div>
+            <div class="stat-label">Total Minutes</div>
+            <p style="margin-top: 0.5rem; color: var(--sand-medium); font-size: 0.9rem;">
+              Time invested
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 2rem;">
+        <h2>WEEKLY SUMMARY</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">This Week</p>
+            <p style="font-size: 2rem; font-weight: 700; color: var(--accent-gold);">
+              <%= weeklyWorkouts %> Workouts
+            </p>
+          </div>
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Minutes Trained</p>
+            <p style="font-size: 2rem; font-weight: 700; color: var(--accent-gold);">
+              <%= weeklyMinutes %> min
+            </p>
+          </div>
+          <div>
+            <p style="color: var(--sand-medium); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem;">Est. Calories</p>
+            <p style="font-size: 2rem; font-weight: 700; color: var(--accent-gold);">
+              <%= Math.round(weeklyMinutes * 5) %>
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: 2rem;">
+          <p style="color: var(--sand-medium); margin-bottom: 0.5rem;">Weekly Goal Progress</p>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: <%= Math.min((weeklyWorkouts / 5) * 100, 100) %>%;"></div>
+          </div>
+          <p style="color: var(--sand-light); margin-top: 0.5rem; font-size: 0.9rem;">
+            <%= weeklyWorkouts %> of 5 workouts this week
+          </p>
+        </div>
+      </div>
+
+      <% if (progress.history && progress.history.length > 0) { %>
+        <div class="card" style="margin-top: 2rem;">
+          <h2>WORKOUT HISTORY</h2>
+          <div class="history-list">
+            <% progress.history.slice().reverse().forEach((workout, index) => { %>
+              <div class="history-item slide-in" style="animation-delay: <%= index * 0.05 %>s;">
+                <div>
+                  <div class="history-details">
+                    <%= workout.workoutType.replace('_', ' ').toUpperCase() %>
+                    <span style="color: var(--sand-medium); margin-left: 1rem;">
+                      • <%= workout.energyLevel.toUpperCase() %> Energy
+                    </span>
+                  </div>
+                  <div class="history-date">
+                    <%= new Date(workout.date).toLocaleDateString('en-US', { 
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long', 
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    }) %>
+                  </div>
+                </div>
+                <div style="color: var(--accent-gold); font-weight: 700; font-size: 1.2rem;">
+                  <%= workout.duration %> min
+                </div>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      <% } else { %>
+        <div class="card" style="margin-top: 2rem; text-align: center; border: 2px dashed var(--sand-dark);">
+          <h3 style="color: var(--sand-medium);">No workouts yet</h3>
+          <p style="color: var(--sand-light); margin: 1rem 0;">
+            Start your first workout to begin tracking your progress!
+          </p>
+          <a href="/workout" class="btn" style="margin-top: 1rem;">START YOUR FIRST WORKOUT</a>
+        </div>
+      <% } %>
+
+      <div class="card" style="margin-top: 2rem; background: rgba(26, 26, 46, 0.5); border: 2px dashed var(--accent-gold);">
+        <h3 style="color: var(--accent-gold);">📊 Progress Insights</h3>
+        <div style="margin-top: 1rem; line-height: 2; color: var(--sand-light);">
+          <% if (progress.completedSessions === 0) { %>
+            <p>• Begin your journey by completing your first workout</p>
+            <p>• Consistency is key - aim for 3-5 workouts per week</p>
+          <% } else if (progress.completedSessions < 10) { %>
+            <p>• Great start! You're building the foundation</p>
+            <p>• Focus on maintaining consistency over intensity</p>
+            <p>• Your body is adapting to the new routine</p>
+          <% } else if (progress.completedSessions < 30) { %>
+            <p>• You're making excellent progress!</p>
+            <p>• Consider gradually increasing workout intensity</p>
+            <p>• Your <%= progress.streak %> day streak shows dedication</p>
+          <% } else { %>
+            <p>• Outstanding commitment! <%= progress.completedSessions %> workouts completed</p>
+            <p>• You've spent <%= progress.totalMinutes %> minutes improving yourself</p>
+            <p>• Keep challenging yourself with varied energy levels</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

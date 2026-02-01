@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Setup - Desert Pulse</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-brand">DESERT PULSE</a>
+  </nav>
+
+  <div class="container">
+    <div class="auth-container fade-in" style="max-width: 700px;">
+      <div class="card">
+        <h2 style="text-align: center;">FORGE YOUR PATH</h2>
+        <p style="text-align: center; color: var(--sand-medium); margin-bottom: 2rem;">
+          Customize your training to match your goals and lifestyle
+        </p>
+
+        <form method="POST" action="/profile-setup">
+          <div class="form-group">
+            <label for="goal">Primary Fitness Goal</label>
+            <select id="goal" name="goal" required>
+              <option value="strength" <%= user.goal === 'strength' ? 'selected' : '' %>>Build Strength</option>
+              <option value="endurance" <%= user.goal === 'endurance' ? 'selected' : '' %>>Increase Endurance</option>
+              <option value="flexibility" <%= user.goal === 'flexibility' ? 'selected' : '' %>>Improve Flexibility</option>
+              <option value="weight_loss" <%= user.goal === 'weight_loss' ? 'selected' : '' %>>Weight Loss</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="availableTime">Available Time per Workout (minutes)</label>
+            <select id="availableTime" name="availableTime" required>
+              <option value="15" <%= user.availableTime === 15 ? 'selected' : '' %>>15 minutes</option>
+              <option value="20" <%= user.availableTime === 20 ? 'selected' : '' %>>20 minutes</option>
+              <option value="30" <%= user.availableTime === 30 ? 'selected' : '' %>>30 minutes</option>
+              <option value="45" <%= user.availableTime === 45 ? 'selected' : '' %>>45 minutes</option>
+              <option value="60" <%= user.availableTime === 60 ? 'selected' : '' %>>60 minutes</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(212, 175, 55, 0.1); border-left: 4px solid var(--spice-orange);">
+            <p style="color: var(--sand-light); line-height: 1.6;">
+              <strong style="color: var(--accent-gold);">Note:</strong> Desert Pulse adapts to your daily energy levels. 
+              These settings establish your baseline, but your actual workouts will adjust based on how you feel each day.
+            </p>
+          </div>
+
+          <button type="submit" class="btn" style="width: 100%; margin-top: 2rem;">CONTINUE TO DASHBOARD</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
